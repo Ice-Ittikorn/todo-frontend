@@ -1,10 +1,11 @@
 import axios from 'axios';
 
-// ตรวจสอบ API URL - ต้องไม่มี trailing slash
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 
-                'https://flask-todo-cicd-production-f351.up.railway.app/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+console.log("DEBUG API_URL =", API_URL);
 
-console.log('API_URL:', API_URL); // ← เพิ่ม log เพื่อ debug
+
+// ✅ แสดงผลตอน build และ runtime
+console.log('[DEBUG] API_URL =', API_URL);
 
 const api = axios.create({
   baseURL: API_URL,
@@ -14,22 +15,25 @@ const api = axios.create({
   timeout: 10000,
 });
 
-// Error interceptor
+// ✅ Interceptor: handle error responses
 api.interceptors.response.use(
   response => response,
   error => {
-    console.error('API Error:', error.response || error); // ← เพิ่ม detailed error
+    const status = error.response?.status;
+    const msg = error.response?.data?.error || error.message;
+    console.error(`[API Error ${status || '???'}]: ${msg}`);
     return Promise.reject(error);
   }
 );
 
+// ✅ รวมทุกฟังก์ชันไว้ใน todoAPI object
 export const todoAPI = {
   getTodos: async () => {
     try {
       const response = await api.get('/todos');
       return response.data;
     } catch (error) {
-      console.error('getTodos error:', error);
+      console.error('[getTodos error]:', error.message);
       throw error;
     }
   },
@@ -39,7 +43,7 @@ export const todoAPI = {
       const response = await api.post('/todos', todo);
       return response.data;
     } catch (error) {
-      console.error('createTodo error:', error);
+      console.error('[createTodo error]:', error.message);
       throw error;
     }
   },
@@ -49,7 +53,7 @@ export const todoAPI = {
       const response = await api.put(`/todos/${id}`, updates);
       return response.data;
     } catch (error) {
-      console.error('updateTodo error:', error);
+      console.error('[updateTodo error]:', error.message);
       throw error;
     }
   },
@@ -59,7 +63,7 @@ export const todoAPI = {
       const response = await api.delete(`/todos/${id}`);
       return response.data;
     } catch (error) {
-      console.error('deleteTodo error:', error);
+      console.error('[deleteTodo error]:', error.message);
       throw error;
     }
   },
@@ -69,7 +73,7 @@ export const todoAPI = {
       const response = await api.get('/health');
       return response.data;
     } catch (error) {
-      console.error('healthCheck error:', error);
+      console.error('[healthCheck error]:', error.message);
       throw error;
     }
   },
