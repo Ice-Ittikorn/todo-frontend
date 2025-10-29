@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = "https://flask-todo-cicd-production-f351.up.railway.app/api";
 console.log("DEBUG API_URL =", API_URL);
 
 
