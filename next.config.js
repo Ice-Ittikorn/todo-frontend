@@ -8,6 +8,8 @@ const nextConfig = {
     unoptimized: true,
   },
   trailingSlash: true,
+  generateBuildId: async () => 'v2-' + Date.now(), // 👈 เพิ่มบรรทัดนี้
+
 };
 
 module.exports = nextConfig;
