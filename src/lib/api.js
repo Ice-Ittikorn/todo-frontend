@@ -1,9 +1,8 @@
 import axios from 'axios';
 
 // ตรวจสอบ API URL - ต้องไม่มี trailing slash
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-console.log("API_URL:", API_URL); // เพื่อ debug ดูค่า
-
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 
+                'https://flask-todo-cicd-production-f351.up.railway.app/api';
 
 console.log('API_URL:', API_URL); // ← เพิ่ม log เพื่อ debug
 
