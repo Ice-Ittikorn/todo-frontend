@@ -43,7 +43,7 @@ jobs:
       
       - name: Build Next.js app
         env:
-          NEXT_PUBLIC_API_URL: https://flask-todo-cicd-a1sq.onrender.com
+          NEXT_PUBLIC_API_URL: https://flask-todo-cicd-production-f351.up.railway.app/api
           NODE_ENV: production
         run: |
           npm run build
